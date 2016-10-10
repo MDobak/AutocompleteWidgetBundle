@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="mdobak_autocomplete_widget.data_provider_collection.class">Mdobak\AutocompleteWidgetBundle\DataProvider\DataProviderCollection</parameter>
+        <parameter key="mdobak_autocomplete_widget.form.type.autocomplete_core.class">Mdobak\AutocompleteWidgetBundle\Form\Type\AutocompleteCoreFormType</parameter>
+        <parameter key="mdobak_autocomplete_widget.routing.api_path_finder.class">Mdobak\AutocompleteWidgetBundle\Routing\ApiPathFinder</parameter>
+    </parameters>
+
+    <services>
+        <service id="mdobak_autocomplete_widget.data_provider_collection" class="%mdobak_autocomplete_widget.data_provider_collection.class%" />
+        <service id="mdobak_autocomplete_widget.routing.api_path_finder" class="%mdobak_autocomplete_widget.data_provider_collection.class%" />
+        <service id="mdobak_autocomplete_widget.routing.api_path_finder" class="%mdobak_autocomplete_widget.routing.api_path_finder.class%" >
+            <argument type="service" id="router" />
+        </service>
+        <service id="mdobak_autocomplete_widget.form.type.autocomplete_core" class="%mdobak_autocomplete_widget.form.type.autocomplete_core.class%">
+            <argument type="service" id="mdobak_autocomplete_widget.data_provider_collection" />
+            <argument type="service" id="mdobak_autocomplete_widget.routing.api_path_finder" />
+            <tag name="form.type" />
+        </service>
+    </services>
+</container>

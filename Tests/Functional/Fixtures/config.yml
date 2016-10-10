@@ -1,0 +1,44 @@
+framework:
+    secret: test
+    session:
+        storage_id: session.storage.mock_file
+    router:
+        resource: "%kernel.root_dir%/routing.yml"
+        strict_requirements: ~
+    validation:      { enable_annotations: true }
+    form:            ~
+
+twig:
+    debug:            true
+    strict_variables: true
+
+doctrine:
+    dbal:
+        default_connection: default
+
+        connections:
+            default:
+                driver:  pdo_sqlite
+                user:    test
+                memory: true
+                charset: utf8
+
+    orm:
+        mappings:
+            dummy:
+                type: annotation
+                alias: Test
+                prefix: Mdobak\AutocompleteWidgetBundle\Tests\App\Entity
+                dir: "%kernel.root_dir%/Entity"
+
+services:
+    dummy_data_provider:
+        class: Mdobak\AutocompleteWidgetBundle\Tests\DataProvider\DummyDataProvider
+        tags:
+            - {name: mdobak_autocomplete_widget.data_provider}
+
+    orm_data_provider:
+        class: Mdobak\AutocompleteWidgetBundle\DataProvider\Doctrine\ORM\DoctrineORMDataProvider
+        arguments: ["@doctrine.orm.entity_manager", Test:DummyEntity, name]
+        tags:
+           - {name: mdobak_autocomplete_widget.data_provider}

@@ -1,0 +1,17 @@
+{% block mdobak_autocomplete_core_form_widget %}
+    {%- set attr = attr|merge({"data-mdobak-autocomplete-api-path": api_path}) -%}
+
+    {%- if required and not multiple and (attr.size is not defined or attr.size <= 1) -%}
+        {% set required = false %}
+    {%- endif -%}
+
+    <select {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %}>
+        {% if multiple %}
+            {% for item in value %}
+                <option value="{{ item.key }}" selected>{{ item_translation_domain is same as(false) ? item.label : item.label|trans({}, item_translation_domain) }}</option>
+            {% endfor %}
+        {% else %}
+            <option value="{{ value.key }}" selected>{{ item_translation_domain is same as(false) ? value.label : value.label|trans({}, item_translation_domain) }}</option>
+        {% endif %}
+    </select>
+{% endblock %}
