@@ -32,7 +32,7 @@ class AutocompleteCoreFormTypeTest extends TypeTestCase
         parent::setUp();
 
         // in this test case its impossible to test validating data!
-        $validator = $this->createMock('\Symfony\Component\Validator\Validator\ValidatorInterface');
+        $validator = $this->getMockBuilder('\Symfony\Component\Validator\Validator\ValidatorInterface')->getMock();
         $validator->method('validate')->will($this->returnValue(new ConstraintViolationList()));
 
         $this->factory = Forms::createFormFactoryBuilder()
