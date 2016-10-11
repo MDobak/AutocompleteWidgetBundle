@@ -19,7 +19,7 @@
         <service id="mdobak_autocomplete_widget.form.type.autocomplete_core" class="%mdobak_autocomplete_widget.form.type.autocomplete_core.class%">
             <argument type="service" id="mdobak_autocomplete_widget.data_provider_collection" />
             <argument type="service" id="mdobak_autocomplete_widget.routing.api_path_finder" />
-            <tag name="form.type" />
+            <tag name="form.type" alias="mdobak_autocomplete_core" />
         </service>
     </services>
 </container>

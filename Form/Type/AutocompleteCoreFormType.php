@@ -140,6 +140,14 @@ class AutocompleteCoreFormType extends AbstractType
     /**
      * {@inheritdoc}
      */
+    public function getName()
+    {
+        return 'mdobak_autocomplete_core';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getBlockPrefix()
     {
         return 'mdobak_autocomplete_core_form';
