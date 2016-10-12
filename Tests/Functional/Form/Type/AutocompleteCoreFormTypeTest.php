@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Validator\Type\FormTypeValidatorExtension;
 use Symfony\Component\Form\Forms;
 use Symfony\Component\Form\PreloadedExtension;
 use Symfony\Component\Form\Test\TypeTestCase;
+use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Routing\Router;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -65,7 +66,7 @@ class AutocompleteCoreFormTypeTest extends TypeTestCase
 
     public function testSubmitValidItemOnNotMultipleForm()
     {
-        $form = $this->factory->create(AutocompleteCoreFormType::class, null, [
+        $form = $this->factory->create($this->getFormName(), null, [
             'data_provider' => 'dummy_data_provider',
             'multiple'      => false
         ]);
@@ -77,7 +78,7 @@ class AutocompleteCoreFormTypeTest extends TypeTestCase
 
     public function testSubmitInvalidItemOnNotMultipleForm()
     {
-        $form = $this->factory->create(AutocompleteCoreFormType::class, null, [
+        $form = $this->factory->create($this->getFormName(), null, [
             'data_provider' => 'dummy_data_provider',
             'multiple'      => false
         ]);
@@ -90,7 +91,7 @@ class AutocompleteCoreFormTypeTest extends TypeTestCase
 
     public function testSubmitValidItemOnMultipleForm()
     {
-        $form = $this->factory->create(AutocompleteCoreFormType::class, null, [
+        $form = $this->factory->create($this->getFormName(), null, [
             'data_provider' => 'dummy_data_provider',
             'multiple'      => true
         ]);
@@ -102,7 +103,7 @@ class AutocompleteCoreFormTypeTest extends TypeTestCase
 
     public function testSubmitInvalidItemOnMultipleForm()
     {
-        $form = $this->factory->create(AutocompleteCoreFormType::class, null, [
+        $form = $this->factory->create($this->getFormName(), null, [
             'data_provider' => 'dummy_data_provider',
             'multiple'      => true
         ]);
@@ -115,7 +116,7 @@ class AutocompleteCoreFormTypeTest extends TypeTestCase
 
     public function testAutocompleteApiPathOnSingleItemForm()
     {
-        $form = $this->factory->create(AutocompleteCoreFormType::class, null, [
+        $form = $this->factory->create($this->getFormName(), null, [
             'data_provider' => 'dummy_data_provider',
             'multiple'      => false
         ]);
@@ -135,7 +136,7 @@ class AutocompleteCoreFormTypeTest extends TypeTestCase
 
     public function testAutocompleteApiPathOnMultipleItemsForm()
     {
-        $form = $this->factory->create(AutocompleteCoreFormType::class, null, [
+        $form = $this->factory->create($this->getFormName(), null, [
             'data_provider' => 'dummy_data_provider',
             'multiple'      => true
         ]);
@@ -155,7 +156,7 @@ class AutocompleteCoreFormTypeTest extends TypeTestCase
 
     public function testSingleItemFormRendering()
     {
-        $form = $this->factory->create(AutocompleteCoreFormType::class, null, [
+        $form = $this->factory->create($this->getFormName(), null, [
             'data_provider' => 'dummy_data_provider',
             'multiple'      => false
         ]);
@@ -178,7 +179,7 @@ class AutocompleteCoreFormTypeTest extends TypeTestCase
 
     public function testMultipleItemsFormRendering()
     {
-        $form = $this->factory->create(AutocompleteCoreFormType::class, null, [
+        $form = $this->factory->create($this->getFormName(), null, [
             'data_provider' => 'dummy_data_provider',
             'multiple'      => true
         ]);
@@ -201,5 +202,14 @@ class AutocompleteCoreFormTypeTest extends TypeTestCase
         $this->assertEquals('0label', $options->eq(1)->text());
         $this->assertEquals(10, $options->eq(2)->attr('value'));
         $this->assertEquals('1label', $options->eq(2)->text());
+    }
+
+    private function getFormName()
+    {
+        if (Kernel::MAJOR_VERSION === 2 && Kernel::MINOR_VERSION <= 7) {
+            return 'mdobak_autocomplete_core';
+        }
+
+        return AutocompleteCoreFormType::class;
     }
 }

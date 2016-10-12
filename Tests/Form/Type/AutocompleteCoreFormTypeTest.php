@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Validator\Type\FormTypeValidatorExtension;
 use Symfony\Component\Form\Forms;
 use Symfony\Component\Form\PreloadedExtension;
 use Symfony\Component\Form\Test\TypeTestCase;
+use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\RouterInterface;
@@ -76,7 +77,7 @@ class AutocompleteCoreFormTypeTest extends TypeTestCase
 
     public function testSubmitted()
     {
-        $form = $this->factory->create(AutocompleteCoreFormType::class, null, [
+        $form = $this->factory->create($this->getFormName(), null, [
             'data_provider' => 'dummy_data_provider',
             'multiple'      => false
         ]);
@@ -88,7 +89,7 @@ class AutocompleteCoreFormTypeTest extends TypeTestCase
 
     public function testNotSubmitted()
     {
-        $form = $this->factory->create(AutocompleteCoreFormType::class, null, [
+        $form = $this->factory->create($this->getFormName(), null, [
             'data_provider' => 'dummy_data_provider',
             'multiple'      => false
         ]);
@@ -98,7 +99,7 @@ class AutocompleteCoreFormTypeTest extends TypeTestCase
 
     public function testSubmitSingleValidItem()
     {
-        $form = $this->factory->create(AutocompleteCoreFormType::class, null, [
+        $form = $this->factory->create($this->getFormName(), null, [
             'data_provider' => 'dummy_data_provider',
             'multiple'      => false
         ]);
@@ -113,7 +114,7 @@ class AutocompleteCoreFormTypeTest extends TypeTestCase
 
     public function testSubmitMultipleValidItems()
     {
-        $form = $this->factory->create(AutocompleteCoreFormType::class, null, [
+        $form = $this->factory->create($this->getFormName(), null, [
             'data_provider' => 'dummy_data_provider',
             'multiple'      => true
         ]);
@@ -136,7 +137,7 @@ class AutocompleteCoreFormTypeTest extends TypeTestCase
 
     public function testSetSingleValidItem()
     {
-        $form = $this->factory->create(AutocompleteCoreFormType::class, null, [
+        $form = $this->factory->create($this->getFormName(), null, [
             'data_provider' => 'dummy_data_provider',
             'multiple'      => false
         ]);
@@ -151,7 +152,7 @@ class AutocompleteCoreFormTypeTest extends TypeTestCase
 
     public function testSetMultipleValidItems()
     {
-        $form = $this->factory->create(AutocompleteCoreFormType::class, null, [
+        $form = $this->factory->create($this->getFormName(), null, [
             'data_provider' => 'dummy_data_provider',
             'multiple'      => true
         ]);
@@ -174,5 +175,14 @@ class AutocompleteCoreFormTypeTest extends TypeTestCase
             ],
             $form->getData()
         );
+    }
+
+    private function getFormName()
+    {
+        if (Kernel::MAJOR_VERSION === 2 && Kernel::MINOR_VERSION <= 7) {
+            return 'mdobak_autocomplete_core';
+        }
+        
+        return AutocompleteCoreFormType::class;
     }
 }
