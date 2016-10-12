@@ -7,6 +7,7 @@ use Mdobak\AutocompleteWidgetBundle\Form\Type\AutocompleteCoreFormType;
 use Mdobak\AutocompleteWidgetBundle\Routing\ApiPathFinder;
 use Mdobak\AutocompleteWidgetBundle\Tests\Functional\Fixtures\KernelProvider;
 use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Validator\Type\FormTypeValidatorExtension;
 use Symfony\Component\Form\Forms;
 use Symfony\Component\Form\PreloadedExtension;
@@ -55,13 +56,16 @@ class AutocompleteCoreFormTypeTest extends TypeTestCase
         $this->dataProviderCollection = $this->kernel->get('mdobak_autocomplete_widget.data_provider_collection');
         $this->apiPathFinder = $this->kernel->get('mdobak_autocomplete_widget.routing.api_path_finder');
 
-        // create a type instance with the mocked dependencies
-        $type = new AutocompleteCoreFormType($this->dataProviderCollection, $this->apiPathFinder);
+        $formType = new FormType();
+        $autocompleteCoreType = new AutocompleteCoreFormType($this->dataProviderCollection, $this->apiPathFinder);
 
-        return array(
+        return [
             // register the type instances with the PreloadedExtension
-            new PreloadedExtension([$type], []),
-        );
+            new PreloadedExtension([
+                'form'                           => $formType,
+                $autocompleteCoreType->getName() => $autocompleteCoreType
+            ], []),
+        ];
     }
 
     public function testSubmitValidItemOnNotMultipleForm()
@@ -206,7 +210,7 @@ class AutocompleteCoreFormTypeTest extends TypeTestCase
 
     private function getFormName()
     {
-        if (Kernel::MAJOR_VERSION === 2 && Kernel::MINOR_VERSION <= 7) {
+        if (Kernel::MAJOR_VERSION == 2 && Kernel::MINOR_VERSION <= 7) {
             return 'mdobak_autocomplete_core';
         }
 

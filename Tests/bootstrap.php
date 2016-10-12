@@ -8,4 +8,7 @@ if (!is_file($autoloadFile = VENDOR_PATH.'/autoload.php')) {
     throw new \LogicException('Could not find autoload.php in vendor/. Did you run "composer install"?');
 }
 
+require_once VENDOR_PATH.'/doctrine/orm/lib/Doctrine/ORM/Mapping/Driver/AnnotationDriver.php';
+\Doctrine\Common\Annotations\AnnotationRegistry::registerAutoloadNamespace('Doctrine\\ORM\\Mapping', VENDOR_PATH.'/doctrine/orm/lib');
+
 require $autoloadFile;

@@ -1,4 +1,4 @@
-{% block mdobak_autocomplete_core_form_widget %}
+{% block mdobak_autocomplete_core_widget %}
     {%- set attr = attr|merge({"data-mdobak-autocomplete-api-path": api_path}) -%}
 
     {%- if required and not multiple and (attr.size is not defined or attr.size <= 1) -%}

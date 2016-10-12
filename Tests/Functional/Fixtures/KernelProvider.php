@@ -3,7 +3,7 @@
 namespace Mdobak\AutocompleteWidgetBundle\Tests\Functional\Fixtures;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
-use Mdobak\AutocompleteWidgetBundle\Tests\App\Entity\DummyEntity;
+use Mdobak\AutocompleteWidgetBundle\Tests\Functional\Fixtures\Entity\DummyEntity;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\NullOutput;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Mdobak\AutocompleteWidgetBundle\Tests\App\Entity;
+namespace Mdobak\AutocompleteWidgetBundle\Tests\Functional\Fixtures\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -33,7 +33,7 @@ class DummyEntity
     /**
      * @param int $id
      *
-     * @return DummyEntity
+     * @return $this
      */
     public function setId($id)
     {
@@ -53,7 +53,7 @@ class DummyEntity
     /**
      * @param string $name
      *
-     * @return DummyEntity
+     * @return $this
      */
     public function setName($name)
     {

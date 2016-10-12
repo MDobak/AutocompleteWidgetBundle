@@ -6,22 +6,17 @@ use Mdobak\AutocompleteWidgetBundle\DataProvider\DataProviderCollectionInterface
 use Mdobak\AutocompleteWidgetBundle\Form\Transformer\ItemsToKeysTransformer;
 use Mdobak\AutocompleteWidgetBundle\Form\Transformer\ItemToKeyTransformer;
 use Mdobak\AutocompleteWidgetBundle\Routing\ApiPathFinder;
-use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Exception\InvalidConfigurationException;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
-use Symfony\Component\OptionsResolver\Options;
+use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Routing\RouterInterface;
 
 /**
- * Class AutocompleteFormType.
+ * Class AutocompleteCoreFormType.
  */
 class AutocompleteCoreFormType extends AbstractType
 {
@@ -134,6 +129,10 @@ class AutocompleteCoreFormType extends AbstractType
      */
     public function getParent()
     {
+        if (Kernel::MAJOR_VERSION == 2 && Kernel::MINOR_VERSION <= 7) {
+            return 'form';
+        }
+
         return FormType::class;
     }
 
@@ -150,6 +149,6 @@ class AutocompleteCoreFormType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'mdobak_autocomplete_core_form';
+        return 'mdobak_autocomplete_core';
     }
 }
