@@ -14,6 +14,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
  * Class AutocompleteCoreFormType.
@@ -104,6 +105,14 @@ class AutocompleteCoreFormType extends AbstractType
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $this->configureOptions($resolver);
+    }
+
+    /**
      * @param FormBuilderInterface $builder
      * @param array                $options
      */
@@ -122,18 +131,6 @@ class AutocompleteCoreFormType extends AbstractType
     {
         $dataProvider = $this->dataProviderCollection->get($options['data_provider']);
         $builder->addModelTransformer(new ItemsToKeysTransformer($dataProvider));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getParent()
-    {
-        if (Kernel::MAJOR_VERSION == 2 && Kernel::MINOR_VERSION <= 7) {
-            return 'form';
-        }
-
-        return FormType::class;
     }
 
     /**
