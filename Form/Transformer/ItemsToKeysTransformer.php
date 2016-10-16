@@ -2,7 +2,6 @@
 
 namespace Mdobak\AutocompleteWidgetBundle\Form\Transformer;
 
-use Mdobak\AutocompleteWidgetBundle\DataProvider\AutocompleteItemInterface;
 use Mdobak\AutocompleteWidgetBundle\DataProvider\DataProviderInterface;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;

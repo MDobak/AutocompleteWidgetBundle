@@ -67,5 +67,4 @@ class DataProviderCollection implements DataProviderCollectionInterface
             unset($this->dataProviders[$n]);
         }
     }
-
 }

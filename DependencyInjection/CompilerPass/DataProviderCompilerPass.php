@@ -6,6 +6,11 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Reference;
 
+/**
+ * Class DataProviderCompilerPass
+ *
+ * @author Michał Dobaczewski <mdobak@gmail.com>
+ */
 class DataProviderCompilerPass implements CompilerPassInterface
 {
     /**
