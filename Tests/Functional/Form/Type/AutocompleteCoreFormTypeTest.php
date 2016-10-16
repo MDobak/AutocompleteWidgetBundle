@@ -62,10 +62,112 @@ class AutocompleteCoreFormTypeTest extends TypeTestCase
         return [
             // register the type instances with the PreloadedExtension
             new PreloadedExtension([
-                'form'                           => $formType,
-                $autocompleteCoreType->getName() => $autocompleteCoreType
+                'form'                     => $formType,
+                'mdobak_autocomplete_core' => $autocompleteCoreType
             ], []),
         ];
+    }
+
+    public function testSubmitted()
+    {
+        $form = $this->factory->create($this->getFormName(), null, [
+            'data_provider' => 'dummy_data_provider',
+            'multiple'      => false
+        ]);
+
+        $form->submit(10);
+
+        $this->assertTrue($form->isSubmitted());
+    }
+
+    public function testNotSubmitted()
+    {
+        $form = $this->factory->create($this->getFormName(), null, [
+            'data_provider' => 'dummy_data_provider',
+            'multiple'      => false
+        ]);
+
+        $this->assertFalse($form->isSubmitted());
+    }
+
+    public function testSubmitSingleItem()
+    {
+        $form = $this->factory->create($this->getFormName(), null, [
+            'data_provider' => 'dummy_data_provider',
+            'multiple'      => false
+        ]);
+
+        $form->submit(10);
+
+        $this->assertEquals(
+            $this->dataProviderCollection->get('dummy_data_provider')->findItem(10)->getOriginalItem(),
+            $form->getData()
+        );
+    }
+
+    public function testSubmitMultipleItems()
+    {
+        $form = $this->factory->create($this->getFormName(), null, [
+            'data_provider' => 'dummy_data_provider',
+            'multiple'      => true
+        ]);
+
+        $form->submit([1, 5, 10]);
+
+        $this->assertSame(3, count($form->getData()));
+
+        $items = $this->dataProviderCollection->get('dummy_data_provider')->findItems([1, 5, 10]);
+
+        $this->assertEquals(
+            [
+                $items[0]->getOriginalItem(),
+                $items[1]->getOriginalItem(),
+                $items[2]->getOriginalItem()
+            ],
+            $form->getData()
+        );
+    }
+
+    public function testSetSingleItem()
+    {
+        $form = $this->factory->create($this->getFormName(), null, [
+            'data_provider' => 'dummy_data_provider',
+            'multiple'      => false
+        ]);
+
+        $form->setData($this->dataProviderCollection->get('dummy_data_provider')->findItem(10)->getOriginalItem());
+
+        $this->assertEquals(
+            $this->dataProviderCollection->get('dummy_data_provider')->findItem(10)->getOriginalItem(),
+            $form->getData()
+        );
+    }
+
+    public function testSetMultipleItems()
+    {
+        $form = $this->factory->create($this->getFormName(), null, [
+            'data_provider' => 'dummy_data_provider',
+            'multiple'      => true
+        ]);
+
+        $form->setData([
+            $this->dataProviderCollection->get('dummy_data_provider')->findItem(1)->getOriginalItem(),
+            $this->dataProviderCollection->get('dummy_data_provider')->findItem(5)->getOriginalItem(),
+            $this->dataProviderCollection->get('dummy_data_provider')->findItem(10)->getOriginalItem()
+        ]);
+
+        $this->assertSame(3, count($form->getData()));
+
+        $items = $this->dataProviderCollection->get('dummy_data_provider')->findItems([1, 5, 10]);
+
+        $this->assertEquals(
+            [
+                $items[0]->getOriginalItem(),
+                $items[1]->getOriginalItem(),
+                $items[2]->getOriginalItem()
+            ],
+            $form->getData()
+        );
     }
 
     public function testSubmitValidItemOnNotMultipleForm()
@@ -210,7 +312,7 @@ class AutocompleteCoreFormTypeTest extends TypeTestCase
 
     private function getFormName()
     {
-        if (Kernel::MAJOR_VERSION == 2 && Kernel::MINOR_VERSION <= 7) {
+        if (!method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix')) {
             return 'mdobak_autocomplete_core';
         }
 
