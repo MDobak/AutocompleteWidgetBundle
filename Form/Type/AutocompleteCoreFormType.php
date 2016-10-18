@@ -9,6 +9,8 @@ use Mdobak\AutocompleteWidgetBundle\Routing\ApiPathFinder;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Exception\InvalidConfigurationException;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -55,6 +57,12 @@ class AutocompleteCoreFormType extends AbstractType
         } else {
             $this->buildSingleItemForm($builder, $options);
         }
+
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($options) {
+            if ($options['multiple'] && null === $event->getData()) {
+                $event->setData([]);
+            }
+        });
     }
 
     /**
@@ -78,7 +86,10 @@ class AutocompleteCoreFormType extends AbstractType
                 $value[] = $dataProvider->wrapItem($item);
             }
         } else {
-            $value = $dataProvider->wrapItem($form->getData());
+            $value = null;
+            if (null !== $form->getData()) {
+                $value = $dataProvider->wrapItem($form->getData());
+            }
         }
 
         $view->vars['value']                   = $value;

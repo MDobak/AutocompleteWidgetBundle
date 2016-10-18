@@ -170,6 +170,66 @@ class AutocompleteCoreFormTypeTest extends TypeTestCase
         );
     }
 
+    public function testSetNullOnNotMultipleForm()
+    {
+        $form = $this->factory->create($this->getFormName(), null, [
+            'data_provider' => 'dummy_data_provider',
+            'multiple'      => false
+        ]);
+
+        $form->setData(null);
+
+        $this->assertEquals(
+            null,
+            $form->getData()
+        );
+    }
+
+    public function testSetNullOnMultipleForm()
+    {
+        $form = $this->factory->create($this->getFormName(), null, [
+            'data_provider' => 'dummy_data_provider',
+            'multiple'      => true
+        ]);
+
+        $form->setData(null);
+
+        $this->assertEquals(
+            [],
+            $form->getData()
+        );
+    }
+
+    public function testSubmitNullOnNotMultipleForm()
+    {
+        $form = $this->factory->create($this->getFormName(), null, [
+            'data_provider' => 'dummy_data_provider',
+            'multiple'      => false
+        ]);
+
+        $form->submit(null);
+
+        $this->assertEquals(
+            null,
+            $form->getData()
+        );
+    }
+
+    public function testSubmitNullOnMultipleForm()
+    {
+        $form = $this->factory->create($this->getFormName(), null, [
+            'data_provider' => 'dummy_data_provider',
+            'multiple'      => true
+        ]);
+
+        $form->submit(null);
+
+        $this->assertEquals(
+            [],
+            $form->getData()
+        );
+    }
+
     public function testSubmitValidItemOnNotMultipleForm()
     {
         $form = $this->factory->create($this->getFormName(), null, [
