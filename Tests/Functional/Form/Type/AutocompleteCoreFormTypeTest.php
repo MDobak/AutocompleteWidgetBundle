@@ -370,6 +370,72 @@ class AutocompleteCoreFormTypeTest extends TypeTestCase
         $this->assertEquals('1label', $options->eq(2)->text());
     }
 
+    /**
+     * @dataProvider requiredAttrDataProvider
+     */
+    public function testRequiredAttrFormRendering($enabled)
+    {
+        $form = $this->factory->create($this->getFormName(), null, [
+            'data_provider' => 'dummy_data_provider',
+            'required'      => $enabled
+        ]);
+
+        /** @var \Twig_Environment $twig */
+        $twig     = $this->kernel->get('twig');
+        $template = $twig->createTemplate('{{ form(form) }}');
+        $html     = $template->render(['form' => $form->createView()]);
+
+        $crawler = new Crawler($html);
+        $select  = $crawler->filter('select[data-mdobak-autocomplete-api-path]')->first();
+
+        if ($enabled) {
+            $this->assertNotNull($select->attr('required'));
+        } else {
+            $this->assertNull($select->attr('required'));
+        }
+    }
+
+    /**
+     * @dataProvider multipleAttrDataProvider
+     */
+    public function testMultipleAttrFormRendering($enabled)
+    {
+        $form = $this->factory->create($this->getFormName(), null, [
+            'data_provider' => 'dummy_data_provider',
+            'multiple'      => $enabled
+        ]);
+
+        /** @var \Twig_Environment $twig */
+        $twig     = $this->kernel->get('twig');
+        $template = $twig->createTemplate('{{ form(form) }}');
+        $html     = $template->render(['form' => $form->createView()]);
+
+        $crawler = new Crawler($html);
+        $select  = $crawler->filter('select[data-mdobak-autocomplete-api-path]')->first();
+
+        if ($enabled) {
+            $this->assertNotNull($select->attr('multiple'));
+        } else {
+            $this->assertNull($select->attr('multiple'));
+        }
+    }
+
+    public function requiredAttrDataProvider()
+    {
+        return [
+            [true],
+            [false]
+        ];
+    }
+
+    public function multipleAttrDataProvider()
+    {
+        return [
+            [true],
+            [false]
+        ];
+    }
+
     private function getFormName()
     {
         if (!method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix')) {

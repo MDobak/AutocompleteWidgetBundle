@@ -1,17 +1,23 @@
 {% block mdobak_autocomplete_core_widget %}
     {%- set attr = attr|merge({"data-mdobak-autocomplete-api-path": api_path}) -%}
 
-    {%- if required and not multiple and (attr.size is not defined or attr.size <= 1) -%}
-        {% set required = false %}
+    {%- if multiple -%}
+        {% set attr = attr|merge({"multiple": "multiple"}) %}
     {%- endif -%}
 
-    <select {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %}>
-        {% if multiple %}
-            {% for item in value %}
-                <option value="{{ item.key }}" selected>{{ item_translation_domain is same as(false) ? item.label : item.label|trans({}, item_translation_domain) }}</option>
-            {% endfor %}
-        {% else %}
-            <option value="{{ value.key }}" selected>{{ item_translation_domain is same as(false) ? value.label : value.label|trans({}, item_translation_domain) }}</option>
+    {%- if required -%}
+        {% set attr = attr|merge({"required": "required"}) %}
+    {%- endif -%}
+
+    <select {{ block('widget_attributes') }}>
+        {% if value %}
+            {% if multiple %}
+                {% for item in value %}
+                    <option value="{{ item.key }}" selected>{{ item_translation_domain is same as(false) ? item.label : item.label|trans({}, item_translation_domain) }}</option>
+                {% endfor %}
+            {% else %}
+                <option value="{{ value.key }}" selected>{{ item_translation_domain is same as(false) ? value.label : value.label|trans({}, item_translation_domain) }}</option>
+            {% endif %}
         {% endif %}
     </select>
 {% endblock %}
