@@ -14,6 +14,7 @@ class AppKernel extends Kernel
             new \Symfony\Bundle\TwigBundle\TwigBundle(),
             new \Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new \Mdobak\AutocompleteWidgetBundle\MdobakAutocompleteWidgetBundle(),
+            new \Mdobak\AutocompleteWidgetBundle\Tests\Functional\Fixtures\TestBundle\TestBundle()
         ];
 
         return $bundles;
@@ -39,6 +40,10 @@ class AppKernel extends Kernel
         parent::shutdown();
 
         $dirPath = sys_get_temp_dir().'/MdobakAutocompleteWidgetBundleTests';
+
+        if (!file_exists($dirPath)) {
+            return;
+        }
 
         $it    = new \RecursiveDirectoryIterator($dirPath, \RecursiveDirectoryIterator::SKIP_DOTS);
         $files = new \RecursiveIteratorIterator($it, \RecursiveIteratorIterator::CHILD_FIRST);

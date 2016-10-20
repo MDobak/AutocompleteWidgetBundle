@@ -4,21 +4,15 @@ namespace Mdobak\AutocompleteWidgetBundle\Tests\Functional\Fixtures\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity
- * @ORM\Table()
- */
 class DummyEntity
 {
     /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @var int
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=100)
+     * @var string
      */
     private $name;
 

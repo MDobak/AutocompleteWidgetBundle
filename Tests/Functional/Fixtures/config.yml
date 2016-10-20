@@ -35,7 +35,7 @@ doctrine:
                 mappings:
                     dummy:
                         mapping: true
-                        type: annotation
+                        type: yml
                         alias: Test
                         prefix: Mdobak\AutocompleteWidgetBundle\Tests\Functional\Fixtures\Entity
                         dir: "%kernel.root_dir%/Entity"

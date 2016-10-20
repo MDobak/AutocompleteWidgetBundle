@@ -1,0 +1,11 @@
+Mdobak\AutocompleteWidgetBundle\Tests\Functional\Fixtures\Entity\DummyEntity:
+  type: entity
+  id:
+    id:
+      type: integer
+      generator:
+        strategy: AUTO
+  fields:
+    name:
+      type: string
+      length: 100

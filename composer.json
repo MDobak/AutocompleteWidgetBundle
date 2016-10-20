@@ -24,6 +24,7 @@
     "symfony/console": "^2.7 || ^3.0",
     "symfony/finder": "^2.7 || ^3.0",
     "symfony/routing": "^2.7 || ^3.0",
+    "symfony/process": "^2.7 || ^3.0",
     "doctrine/doctrine-bundle": "^1.4",
     "doctrine/orm": "^2.3",
     "phpunit/phpunit": "^4.5 || ^5.4",

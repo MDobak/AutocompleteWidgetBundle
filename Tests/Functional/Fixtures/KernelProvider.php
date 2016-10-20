@@ -11,7 +11,7 @@ use Symfony\Component\Console\Output\NullOutput;
 class KernelProvider
 {
     /**
-     * @var \AppKernel
+     * @var AppKernel
      */
     private static $kernel;
 
@@ -56,7 +56,7 @@ class KernelProvider
 
     private function setUpKernel()
     {
-        require_once TESTS_PATH . '/Functional/Fixtures/AppKernel.php';
+        require_once __DIR__ . '/AppKernel.php';
 
         $kernel = new AppKernel('test', true);
         $kernel->boot();

@@ -1,12 +1,8 @@
-some_route_1:
-    path: /foo
-    defaults: { _controller: TestBundle:Test:Test1 }
+default:
+    path: /
+    defaults: { _controller: TestBundle:Default:index }
 
 # route used for test ApiPathFinder
-autocomplete_api2:
+autocomplete_api:
     path: /test
     defaults: { _controller: MdobakAutocompleteWidgetBundle:Api:show, autocomplete_data_provider: dummy_data_provider }
-
-some_route_2:
-    path: /bar
-    defaults: { _controller: TestBundle:Test:Test2 }
